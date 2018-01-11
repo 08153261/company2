@@ -1,0 +1,106 @@
+package graph12;
+
+import java.awt.event.*;  
+import javax.swing.*;  
+import java.awt.*;  
+  
+public class circle extends JFrame implements ActionListener {  
+    JButton btn;  
+    JLabel lbl1, lbl2, lbl3;  
+    JTextField t1, t2, t3;  
+    JPanel p1, p2;
+  
+    public circle() {  
+        super("Presenham算法画圆");  
+        btn = new JButton("确定");  
+        btn.addActionListener(this);  
+        lbl1 = new JLabel("输入圆心横坐标:");  
+        lbl2 = new JLabel("输入圆心纵坐标:");  
+        lbl3 = new JLabel("输入圆半径:");    
+        t1 = new JTextField(3);  
+        t2 = new JTextField(3);  
+        t3 = new JTextField(3);  
+        t1.addActionListener(this);  
+        t2.addActionListener(this);  
+        t3.addActionListener(this);  
+        p1 = new JPanel();  
+        p1.setLayout(new GridLayout(2, 2));  
+        p1.add(lbl1);  
+        p1.add(t1);  
+        p1.add(lbl2);  
+        p1.add(t2);  
+        p1.add(lbl3);  
+        p1.add(t3);  
+        this.add(p1, "South");  
+        p2 = new JPanel();  
+        p2.setLayout(new BorderLayout());  
+        p2.add(btn);  
+        btn.setActionCommand("确定");  
+        this.add(p2, "North");
+        
+        this.setBackground(Color.white);  
+    }  
+   
+  
+    public void persenham_circle(Graphics g) {  
+        int x0, y0,r;  
+        String s1, s2, s3;  
+        int x,y; 
+        int p;
+        s1 = t1.getText();  
+        s2 = t2.getText();  
+        s3 = t3.getText();  
+        x0 = Integer.parseInt(s1);  
+        y0 = Integer.parseInt(s2);  
+        r = Integer.parseInt(s3);  
+        x=x0;
+        y=y0+r;
+        p=3-2*r;
+        while(x<y)
+	    {
+        	try
+        	{
+        		
+        	    if(p<0)
+        	    {
+        	    	p=p+4*x+6;
+        	    }
+        	    else
+        	    {
+        	    	p=p+4*(x-y)+10;
+        	    	y-=2;
+        	    }
+        	    x+=2; 
+        	    Thread.sleep(100);
+            	g.fillRect(x+300,370-r-y,2,2);
+            	g.fillRect(y+300,370-r-x,2,2);
+            	g.fillRect(300-x,370-r-y,2,2);
+            	g.fillRect(300-y,370-r-x,2,2);
+            	g.fillRect(x+300,370-r+y,2,2);
+            	g.fillRect(y+300,370-r+x,2,2);
+            	g.fillRect(300-x,370-r+y,2,2);
+            	g.fillRect(300-y,370-r+x,2,2);
+            	
+             }catch (Exception e) {}
+        }
+        	
+        
+    }  
+  
+    public void actionPerformed(ActionEvent e) {  
+        String s = e.getActionCommand();  
+        if (s.equals("确定")) {  
+            Graphics g = this.getGraphics();  
+            g.clearRect(0, 70, 500, 300);   
+            persenham_circle(g);  
+        }  
+    }  	
+  
+    public static void main(String[] args) {  
+        circle frame = new circle();  
+        frame.setSize(500, 500);   
+        frame.setLocation(200, 200);  
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        frame.setVisible(true);  
+    }  
+}  

@@ -1,0 +1,105 @@
+package graph12;
+
+import java.awt.event.*;  
+import javax.swing.*;  
+import java.awt.*;  
+  
+public class paint extends JFrame implements ActionListener {  
+    JButton btn;  
+    JLabel lbl1, lbl2, lbl3, lbl4;  
+    JTextField t1, t2, t3, t4;  
+    JPanel p1, p2; 
+  
+    public paint() {  
+        super("Presenham算法画直线");  
+        btn = new JButton("确定");  
+        btn.addActionListener(this);  
+        lbl1 = new JLabel("输入起点横坐标:");  
+        lbl2 = new JLabel("输入起点纵坐标:");  
+        lbl3 = new JLabel("输入终点横坐标:");  
+        lbl4 = new JLabel("输入终点纵坐标:");  
+        t1 = new JTextField(3);  
+        t2 = new JTextField(3);  
+        t3 = new JTextField(3);  
+        t4 = new JTextField(3);  
+        t1.addActionListener(this);  
+        t2.addActionListener(this);  
+        t3.addActionListener(this);  
+        t4.addActionListener(this);  
+        p1 = new JPanel();  
+        p1.setLayout(new GridLayout(2, 2));  
+        p1.add(lbl1);  
+        p1.add(t1);  
+        p1.add(lbl2);  
+        p1.add(t2);  
+        p1.add(lbl3);  
+        p1.add(t3);  
+        p1.add(lbl4);  
+        p1.add(t4);  
+        this.add(p1, "South");  
+        p2 = new JPanel();  
+        p2.setLayout(new BorderLayout());  
+        p2.add(btn);  
+        btn.setActionCommand("确定");  
+        this.add(p2, "North");  
+      
+        this.setBackground(Color.white);  
+    }  
+  
+    public void persenham_line(Graphics g) {  
+        int x0, x1, y0, y1;  
+        String s1, s2, s3, s4;  
+        int dx, dy,d, x,y;  
+        s1 = t1.getText();  
+        s2 = t2.getText();  
+        s3 = t3.getText();  
+        s4 = t4.getText();  
+        x0 = Integer.parseInt(s1);  
+        y0 = Integer.parseInt(s2);  
+        x1 = Integer.parseInt(s3);  
+        y1 = Integer.parseInt(s4); 
+        dy = y1 - y0;  
+        dx = x1 - x0;  
+        x=x0;
+        y=y0;
+        g.fillRect(x0,370-y0,2,2);
+        d=2*dy-dx;
+        for(int i=1;i<x1-x0+1;i++)
+        {
+        	
+            x=x+2;
+        	
+        	if(d>0)
+        	{
+        		y=y+2;
+        		d=d+2*dy-2*dx;
+        	}
+        	else
+        	{
+        		y=y;
+        		d=d+2*dy;
+            }
+        	g.fillRect(x,370-y,2,2);	
+        }     
+        	
+        
+    }  
+  
+    public void actionPerformed(ActionEvent e) {  
+        String s = e.getActionCommand();  
+        if (s.equals("确定")) {  
+            Graphics g = this.getGraphics();  
+            g.clearRect(0, 70, 500, 300);  
+            persenham_line(g);  
+        }  
+    }  
+  
+    public static void main(String[] args) {  
+        paint frame = new paint();  
+        frame.setSize(500, 500);  
+        frame.setLocation(450, 200);  
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        frame.setVisible(true);  
+    }  
+}  
+
